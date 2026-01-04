@@ -17,6 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -30,6 +31,7 @@ fun KeyCell(
     borderColor: Color = Color(0xFFCCCCCC),
     isBold: Boolean = false,
     isShiftPressed: Boolean = false,
+    fontFamily: FontFamily = FontFamily.Default,
     onClick: (KeyData) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -72,7 +74,8 @@ fun KeyCell(
             text = displayText,
             fontSize = fontSize.sp,
             color = textColor,
-            fontWeight = if (isBold) FontWeight.Bold else FontWeight.Normal
+            fontWeight = if (isBold) FontWeight.Bold else FontWeight.Normal,
+            fontFamily = fontFamily
         )
     }
 }

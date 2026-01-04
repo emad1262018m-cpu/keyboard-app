@@ -12,6 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.keyboardapp.feature.settings.SettingsScreen
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -24,11 +25,15 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    SetupScreen(
-                        onEnableKeyboard = {
-                            startActivity(Intent(Settings.ACTION_INPUT_METHOD_SETTINGS))
-                        }
-                    )
+                    Column {
+                        SettingsScreen(modifier = Modifier.weight(1f))
+                        HorizontalDivider()
+                        SetupScreen(
+                            onEnableKeyboard = {
+                                startActivity(Intent(Settings.ACTION_INPUT_METHOD_SETTINGS))
+                            }
+                        )
+                    }
                 }
             }
         }
@@ -39,7 +44,7 @@ class MainActivity : ComponentActivity() {
 fun SetupScreen(onEnableKeyboard: () -> Unit) {
     Column(
         modifier = Modifier
-            .fillMaxSize()
+            .fillMaxWidth()
             .padding(24.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center

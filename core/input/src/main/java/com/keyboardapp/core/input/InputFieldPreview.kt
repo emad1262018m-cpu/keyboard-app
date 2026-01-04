@@ -11,6 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -22,7 +23,8 @@ fun InputFieldPreview(
     fontSizeSp: Int,
     textColor: Color,
     backgroundColor: Color,
-    isBold: Boolean
+    isBold: Boolean,
+    fontFamily: FontFamily = FontFamily.Default
 ) {
     Box(
         modifier = Modifier
@@ -36,6 +38,7 @@ fun InputFieldPreview(
             text = text.ifEmpty { "Start typing..." },
             fontSize = fontSizeSp.sp,
             fontWeight = if (isBold) FontWeight.Bold else FontWeight.Normal,
+            fontFamily = fontFamily,
             color = textColor,
             modifier = Modifier
                 .fillMaxWidth()
