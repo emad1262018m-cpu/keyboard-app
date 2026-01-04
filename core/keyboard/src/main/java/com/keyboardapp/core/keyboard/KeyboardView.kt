@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.gestures.detectDragGestures
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.IconButton
@@ -38,6 +39,7 @@ fun KeyboardView(
     var currentHeight by remember { mutableStateOf(keyboardHeightDp) }
     val layout = layoutEditor?.currentLayout ?: LayoutManager.getDefaultQwertyLayout()
     val isEditMode = layoutEditor?.isEditMode ?: false
+    val interactionSource = remember { MutableInteractionSource() }
 
     // Handle height changes
     LaunchedEffect(currentHeight) {
@@ -138,7 +140,8 @@ fun KeyboardView(
             onClick = onSettingsClick,
             modifier = Modifier
                 .align(Alignment.TopEnd)
-                .padding(4.dp)
+                .padding(4.dp),
+            interactionSource = interactionSource
         ) {
             Text("⚙️", fontSize = 20.sp)
         }

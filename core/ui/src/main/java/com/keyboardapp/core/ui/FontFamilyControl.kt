@@ -1,5 +1,6 @@
 package com.keyboardapp.core.ui
 
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -15,6 +16,7 @@ fun FontFamilyControl(
     onFontSelected: (String) -> Unit
 ) {
     val fontFamilies = listOf("Roboto", "Arial", "Noto Sans Arabic", "Courier New")
+    val interactionSource = remember { MutableInteractionSource() }
     
     Column(modifier = Modifier.fillMaxWidth()) {
         Text(
@@ -30,7 +32,8 @@ fun FontFamilyControl(
                 onClick = { expanded = true },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(48.dp)
+                    .height(48.dp),
+                interactionSource = interactionSource
             ) {
                 Text("$currentFont ▼", fontSize = 16.sp)
             }

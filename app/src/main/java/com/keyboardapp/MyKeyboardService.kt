@@ -25,6 +25,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.graphics.Color
 import android.content.Intent
 
 @AndroidEntryPoint

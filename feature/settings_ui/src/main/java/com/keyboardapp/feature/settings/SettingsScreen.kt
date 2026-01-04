@@ -2,6 +2,7 @@ package com.keyboardapp.feature.settings
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -35,6 +36,7 @@ fun SettingsScreen(
     var showLayoutManager by remember { mutableStateOf(false) }
     var showHeightControl by remember { mutableStateOf(false) }
     val scope = rememberCoroutineScope()
+    val interactionSource = remember { MutableInteractionSource() }
     
     if (showLayoutManager && layoutRepository != null) {
         LayoutManagerScreen(
@@ -110,7 +112,8 @@ fun SettingsScreen(
                                 viewModel.updateKeyboardHeight(value)
                             },
                             valueRange = 150f..400f,
-                            modifier = Modifier.fillMaxWidth()
+                            modifier = Modifier.fillMaxWidth(),
+                            interactionSource = interactionSource
                         )
                         Row(
                             modifier = Modifier.fillMaxWidth(),
