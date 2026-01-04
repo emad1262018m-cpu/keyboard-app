@@ -1,26 +1,34 @@
 package com.keyboardapp.core.keyboard
 
+import android.util.Log
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.keyboardapp.core.input.TextComposer
 
 @Composable
 fun KeyboardView(
-    onKeyClick: (KeyData) -> Unit,
-    isShiftPressed: Boolean = false,
+    textComposer: TextComposer?,
+    getPreviewText: () -> String,
+    onTextChanged: (String) -> Unit,
     fontSize: Int = 32,
     textColor: Color = Color.Black,
     backgroundColor: Color = Color(0xFFF0F0F0),
     borderColor: Color = Color(0xFFCCCCCC),
     isBold: Boolean = false,
+    shiftManager: ShiftManager = ShiftManager(),
     modifier: Modifier = Modifier
 ) {
     val layout = LayoutManager.getDefaultQwertyLayout()
-    
+
     Column(
         modifier = modifier
             .fillMaxWidth()
@@ -36,8 +44,40 @@ fun KeyboardView(
                 backgroundColor = backgroundColor,
                 borderColor = borderColor,
                 isBold = isBold,
-                isShiftPressed = isShiftPressed,
-                onKeyClick = onKeyClick
+                isShiftPressed = shiftManager.isShiftActive,
+                onKeyPressed = { keyData ->
+                    Log.d(TAG, "Key pressed: '${keyData.displayChar}' (keyCode: ${keyData.keyCode})")
+
+                    val currentText = getPreviewText()
+
+                    when (keyData.keyCode) {
+                        LayoutManager.KEYCODE_SHIFT -> {
+                            shiftManager.onShiftTapped()
+                        }
+
+                        LayoutManager.KEYCODE_BACKSPACE -> {
+                            textComposer?.deleteCharacter()
+                            onTextChanged(currentText.dropLast(1))
+                        }
+
+                        LayoutManager.KEYCODE_SPACE -> {
+                            textComposer?.insertSpace()
+                            onTextChanged(currentText + " ")
+                        }
+
+                        LayoutManager.KEYCODE_ENTER -> {
+                            textComposer?.insertNewLine()
+                            onTextChanged(currentText + "\n")
+                        }
+
+                        else -> {
+                            val displayChar = shiftManager.getDisplayCharacter(keyData.char)
+                            textComposer?.insertCharacter(displayChar)
+                            onTextChanged(currentText + displayChar)
+                            shiftManager.onCharacterTyped()
+                        }
+                    }
+                }
             )
         }
     }
@@ -52,7 +92,7 @@ fun KeyboardRow(
     borderColor: Color,
     isBold: Boolean,
     isShiftPressed: Boolean,
-    onKeyClick: (KeyData) -> Unit,
+    onKeyPressed: (KeyData) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -69,9 +109,11 @@ fun KeyboardRow(
                 borderColor = borderColor,
                 isBold = isBold,
                 isShiftPressed = isShiftPressed,
-                onClick = onKeyClick,
+                onClick = onKeyPressed,
                 modifier = Modifier.weight(keyData.width)
             )
         }
     }
 }
+
+private const val TAG = "KeyboardView"

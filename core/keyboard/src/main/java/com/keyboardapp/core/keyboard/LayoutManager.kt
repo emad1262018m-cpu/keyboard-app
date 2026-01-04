@@ -5,6 +5,7 @@ object LayoutManager {
     const val KEYCODE_SHIFT = -1
     const val KEYCODE_BACKSPACE = -2
     const val KEYCODE_SPACE = -3
+    const val KEYCODE_ENTER = -4
     
     fun getDefaultQwertyLayout(): KeyboardLayout {
         return KeyboardLayout(
@@ -36,7 +37,7 @@ object LayoutManager {
                 ),
                 // Row 3: Shift Z X C V B N M Backspace
                 listOf(
-                    KeyData("⇧", KEYCODE_SHIFT, width = 1.0f),
+                    KeyData("⇧", KEYCODE_SHIFT, width = 1.0f, isSpecialKey = true),
                     KeyData("Z", 'Z'.code),
                     KeyData("X", 'X'.code),
                     KeyData("C", 'C'.code),
@@ -44,11 +45,12 @@ object LayoutManager {
                     KeyData("B", 'B'.code),
                     KeyData("N", 'N'.code),
                     KeyData("M", 'M'.code),
-                    KeyData("⌫", KEYCODE_BACKSPACE, width = 1.0f)
+                    KeyData("⌫", KEYCODE_BACKSPACE, width = 1.0f, isSpecialKey = true)
                 ),
-                // Row 4: Space
+                // Row 4: Space + Enter
                 listOf(
-                    KeyData("Space", KEYCODE_SPACE, width = 10.0f)
+                    KeyData(" ", KEYCODE_SPACE, width = 8.0f, isSpecialKey = true, displayChar = "Space"),
+                    KeyData("\n", KEYCODE_ENTER, width = 2.0f, isSpecialKey = true, displayChar = "↵")
                 ),
                 // Row 5: Numbers
                 listOf(
@@ -94,18 +96,19 @@ object LayoutManager {
                     KeyData("م", 'م'.code)
                 ),
                 listOf(
-                    KeyData("⇧", KEYCODE_SHIFT, width = 1.0f),
+                    KeyData("⇧", KEYCODE_SHIFT, width = 1.0f, isSpecialKey = true),
                     KeyData("ئ", 'ئ'.code),
                     KeyData("ء", 'ء'.code),
                     KeyData("ؤ", 'ؤ'.code),
                     KeyData("ر", 'ر'.code),
-                    KeyData("لا", 'لا'.code),
+                    KeyData("لا", 'ل'.code),
                     KeyData("ى", 'ى'.code),
                     KeyData("ة", 'ة'.code),
-                    KeyData("⌫", KEYCODE_BACKSPACE, width = 1.0f)
+                    KeyData("⌫", KEYCODE_BACKSPACE, width = 1.0f, isSpecialKey = true)
                 ),
                 listOf(
-                    KeyData("مسافة", KEYCODE_SPACE, width = 10.0f)
+                    KeyData(" ", KEYCODE_SPACE, width = 8.0f, isSpecialKey = true, displayChar = "مسافة"),
+                    KeyData("\n", KEYCODE_ENTER, width = 2.0f, isSpecialKey = true, displayChar = "↵")
                 ),
                 listOf(
                     KeyData("١", '١'.code),
