@@ -61,6 +61,7 @@ dependencies {
     implementation(project(":core:input"))
     implementation(project(":core:ui"))
     implementation(project(":data:settings"))
+    implementation(project(":feature:settings_ui"))
     
     // Core Android
     implementation("androidx.core:core-ktx:1.12.0")
