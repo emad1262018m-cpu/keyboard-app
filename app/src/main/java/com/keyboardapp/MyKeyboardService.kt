@@ -18,7 +18,14 @@ import androidx.savedstate.SavedStateRegistryController
 import androidx.savedstate.SavedStateRegistryOwner
 import androidx.savedstate.setViewTreeSavedStateRegistryOwner
 import com.keyboardapp.core.input.TextComposer
+import com.keyboardapp.core.ui.FontFamilyMapper
+import com.keyboardapp.data.settings.KeyboardSettings
+import com.keyboardapp.data.settings.SettingsRepository
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import android.content.Intent
 
 @AndroidEntryPoint
 class MyKeyboardService : InputMethodService(),
@@ -27,6 +34,9 @@ class MyKeyboardService : InputMethodService(),
     SavedStateRegistryOwner {
 
     private val TAG = "MyKeyboardService"
+
+    @Inject
+    lateinit var settingsRepository: SettingsRepository
 
     private val lifecycleRegistry = LifecycleRegistry(this)
     private val savedStateRegistryController = SavedStateRegistryController.create(this)
@@ -62,7 +72,25 @@ class MyKeyboardService : InputMethodService(),
             setViewTreeSavedStateRegistryOwner(this@MyKeyboardService)
 
             setContent {
-                KeyboardScreen(textComposer = textComposerState.value)
+                val settings by settingsRepository.getSettingsFlow()
+                    .collectAsState(initial = KeyboardSettings())
+
+                KeyboardScreen(
+                    textComposer = textComposerState.value,
+                    keyboardFontSize = settings.keyboardFontSizeSp,
+                    inputFieldFontSize = settings.inputFieldFontSizeSp,
+                    fontFamily = FontFamilyMapper.map(settings.fontFamily),
+                    textColor = Color(android.graphics.Color.parseColor(settings.textColor)),
+                    backgroundColor = Color(android.graphics.Color.parseColor(settings.backgroundColor)),
+                    borderColor = Color(android.graphics.Color.parseColor(settings.borderColor)),
+                    isBold = settings.isBold,
+                    onSettingsClick = {
+                        val intent = Intent(this@MyKeyboardService, MainActivity::class.java).apply {
+                            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                        }
+                        startActivity(intent)
+                    }
+                )
             }
         }
     }
