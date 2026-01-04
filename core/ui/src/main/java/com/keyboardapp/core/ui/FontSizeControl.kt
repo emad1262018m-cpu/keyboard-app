@@ -1,10 +1,12 @@
 package com.keyboardapp.core.ui
 
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -18,6 +20,7 @@ fun FontSizeControl(
     maxSize: Int = 64,
     onSizeChanged: (Int) -> Unit
 ) {
+    val interactionSource = remember { MutableInteractionSource() }
     Column(modifier = Modifier.fillMaxWidth()) {
         Text(
             text = label,
@@ -33,8 +36,10 @@ fun FontSizeControl(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 8.dp),
+            interactionSource = interactionSource,
             thumb = {
                 SliderDefaults.Thumb(
+                    interactionSource = interactionSource,
                     modifier = Modifier.size(24.dp)
                 )
             }
