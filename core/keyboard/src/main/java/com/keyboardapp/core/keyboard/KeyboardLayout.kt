@@ -11,3 +11,14 @@ data class KeyData(
     val isSpecialKey: Boolean = false,
     val displayChar: String = char
 )
+
+data class KeyPosition(
+    val char: String,
+    val row: Int,
+    val col: Int,
+    val width: Float = 1.0f,
+    val height: Float = 1.0f,
+    val keyCode: Int = 0,
+    val isSpecialKey: Boolean = false,
+    val displayChar: String = char
+)
