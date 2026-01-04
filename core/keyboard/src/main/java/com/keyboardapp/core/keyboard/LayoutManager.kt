@@ -7,6 +7,8 @@ object LayoutManager {
     const val KEYCODE_SPACE = -3
     const val KEYCODE_ENTER = -4
     
+    private var currentLayoutId: Long? = null
+    
     fun getDefaultQwertyLayout(): KeyboardLayout {
         return KeyboardLayout(
             rows = listOf(
@@ -124,5 +126,60 @@ object LayoutManager {
                 )
             )
         )
+    }
+    
+    fun loadLayout(layout: List<List<KeyPosition>>): KeyboardLayout {
+        val rows = mutableListOf<List<KeyData>>()
+        
+        // Group positions by row
+        val positionsByRow = layout.groupBy { it.row }
+        val maxRow = positionsByRow.keys.maxOrNull() ?: 0
+        
+        for (rowIndex in 0..maxRow) {
+            val rowPositions = positionsByRow[rowIndex]?.sortedBy { it.col } ?: continue
+            
+            val rowKeys = rowPositions.map { position ->
+                KeyData(
+                    char = position.char,
+                    keyCode = position.keyCode,
+                    width = position.width,
+                    isSpecialKey = position.isSpecialKey,
+                    displayChar = position.displayChar
+                )
+            }
+            
+            rows.add(rowKeys)
+        }
+        
+        return KeyboardLayout(rows)
+    }
+    
+    fun convertLayoutToPositions(layout: KeyboardLayout): List<List<KeyPosition>> {
+        val positions = mutableListOf<List<KeyPosition>>()
+        
+        layout.rows.forEachIndexed { rowIndex, row ->
+            val rowPositions = row.mapIndexed { colIndex, keyData ->
+                KeyPosition(
+                    char = keyData.char,
+                    row = rowIndex,
+                    col = colIndex,
+                    width = keyData.width,
+                    keyCode = keyData.keyCode,
+                    isSpecialKey = keyData.isSpecialKey,
+                    displayChar = keyData.displayChar
+                )
+            }
+            positions.add(rowPositions)
+        }
+        
+        return positions
+    }
+    
+    fun setCurrentLayoutId(layoutId: Long?) {
+        currentLayoutId = layoutId
+    }
+    
+    fun getCurrentLayoutId(): Long? {
+        return currentLayoutId
     }
 }
