@@ -54,6 +54,8 @@ dependencies {
     
     // Core Android
     implementation("androidx.core:core-ktx:1.12.0")
+
+    implementation(project(":core:input"))
     
     // Testing
     testImplementation("junit:junit:4.13.2")

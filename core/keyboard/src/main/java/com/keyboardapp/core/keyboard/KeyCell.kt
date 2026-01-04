@@ -43,11 +43,10 @@ fun KeyCell(
     }
     
     val displayText = when {
-        keyData.keyCode == LayoutManager.KEYCODE_SHIFT && isShiftPressed -> "⇧"
         keyData.keyCode >= 0 && keyData.char.length == 1 && keyData.char[0].isLetter() -> {
             if (isShiftPressed) keyData.char.uppercase() else keyData.char.lowercase()
         }
-        else -> keyData.char
+        else -> keyData.displayChar
     }
     
     Box(
