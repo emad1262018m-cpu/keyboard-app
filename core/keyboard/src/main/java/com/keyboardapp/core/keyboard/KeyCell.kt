@@ -81,8 +81,8 @@ fun KeyCell(
                                 isDragging = false
                                 onDragEnd()
                             },
-                            onDrag = { change, _ ->
-                                change.consume()
+                            onDrag = { _, _ ->
+                                // Drag gesture is automatically consumed
                             }
                         )
                     }
