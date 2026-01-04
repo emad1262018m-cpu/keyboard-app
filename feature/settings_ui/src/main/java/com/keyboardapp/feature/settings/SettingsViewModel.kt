@@ -70,4 +70,10 @@ class SettingsViewModel @Inject constructor(
             settingsRepository.updateLanguage(lang)
         }
     }
+    
+    fun updateKeyboardHeight(height: Float) {
+        viewModelScope.launch {
+            settingsRepository.updateKeyboardHeight(height)
+        }
+    }
 }

@@ -154,8 +154,7 @@ fun KeyboardView(
                     .size(40.dp)
                     .background(Color.Gray.copy(alpha = 0.5f), shape = RoundedCornerShape(topStart = 8.dp))
                     .pointerInput(Unit) {
-                        detectDragGestures { change, dragAmount ->
-                            change.consume()
+                        detectDragGestures { _, dragAmount ->
                             val density = this
                             val newHeight = (currentHeight + dragAmount.y / density.density).coerceIn(150f, 400f)
                             currentHeight = newHeight
